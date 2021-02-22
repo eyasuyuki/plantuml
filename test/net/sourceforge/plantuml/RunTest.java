@@ -1,4 +1,4 @@
-package org.javaopen.plantuml;
+package net.sourceforge.plantuml;
 
 
 import org.junit.jupiter.api.Test;
