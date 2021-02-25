@@ -1,0 +1,58 @@
+@startuml
+skinparam linetype ortho
+' hide the spot
+hide circle
+
+entity address <<Resource>> {
+* id: bigint unsigned <<PK>>
+}
+
+entity address_history <<Event>> {
+* id: bigint unsigned <<PK>>
+* address_id: bigint unsigned <<FK>>
+* status: enum ('ENABLE', 'DISABLE') = 'ENABLE'
+* created_at: timestamp(6) = current_timestamp(6)
+}
+
+entity address_entry_type <<Resource>> {
+* id: SERIAL <<PK>>
+* name: text
+* description: text
+}
+
+entity address_entry_type_history <<Event>> {
+* id: SERIAL <<PK>>
+* address_entry_type_id: bigint unsigned <<FK>>
+* status: enum('ENABLE', 'DISABLE') = 'ENABLE'
+* created_at: timestamp(6) = current_timestamp(6)
+}
+
+entity address_entry <<Resource>> {
+* id: bigint unsigned <<PK>>
+* address_entry_type_id: bigint unsigned <<FK>>
+* value: text
+}
+
+entity address_detail <<Resource>> {
+* id: bigint unsigned <<PK>>
+* address_id: bigint unsigned <<FK>>
+* address_entry_id: bigint unsigned <<FK>>
+}
+
+entity address_detail_history <<Event>> {
+* id: bigint unsigned <<PK>>
+* address_detail_id: bigint unsigned <<FK>>
+* status: enum ('ENABLE', 'DISABLE') = 'ENABLE'
+* created_at: timestamp(6) = current_timestamp(6)
+}
+
+address ||--|{ address_history
+
+address_entry_type ||--|{ address_entry_type_history
+address_entry_type ||--|{ address_entry
+address ||--|{ address_detail
+address_entry }|--|{ address_detail
+
+address_detail ||--|{ address_detail_history
+
+@enduml
